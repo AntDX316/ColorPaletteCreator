@@ -1,0 +1,28 @@
+.color-swatch {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    display: inline-block;
+}
+
+.stDataFrame {
+    font-size: 14px;
+}
+
+.preview-box {
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px 0;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.download-button {
+    margin-top: 20px;
+}
+
+.search-box {
+    margin-bottom: 20px;
+}
