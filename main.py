@@ -3,6 +3,7 @@ import pandas as pd
 import base64
 from io import StringIO
 import colorsys
+import math
 
 # Page configuration
 st.set_page_config(
@@ -21,7 +22,7 @@ def load_data():
     df = pd.read_csv('color_srgb.csv')
     return df
 
-# Color mixing functions
+# Color conversion functions
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
@@ -33,6 +34,69 @@ def rgb_to_hex(rgb):
         min(255, max(0, int(rgb[2])))
     )
 
+def rgb_to_hsv(rgb):
+    r, g, b = [x/255.0 for x in rgb]
+    return colorsys.rgb_to_hsv(r, g, b)
+
+def hsv_to_rgb(hsv):
+    rgb = colorsys.hsv_to_rgb(hsv[0], hsv[1], hsv[2])
+    return tuple(int(x * 255) for x in rgb)
+
+# Palette generation functions
+def generate_monochromatic(base_color, count=5):
+    base_rgb = hex_to_rgb(base_color)
+    h, s, v = rgb_to_hsv(base_rgb)
+    
+    colors = []
+    step = 1.0 / (count - 1)
+    
+    for i in range(count):
+        new_v = max(0.1, min(1.0, 0.1 + i * step))
+        rgb = hsv_to_rgb((h, s, new_v))
+        colors.append(rgb_to_hex(rgb))
+    
+    return colors
+
+def generate_complementary(base_color):
+    base_rgb = hex_to_rgb(base_color)
+    h, s, v = rgb_to_hsv(base_rgb)
+    
+    # Generate complementary color (opposite on color wheel)
+    comp_h = (h + 0.5) % 1.0
+    comp_rgb = hsv_to_rgb((comp_h, s, v))
+    
+    return [base_color, rgb_to_hex(comp_rgb)]
+
+def generate_analogous(base_color, angle=30):
+    base_rgb = hex_to_rgb(base_color)
+    h, s, v = rgb_to_hsv(base_rgb)
+    
+    # Convert angle to percentage of color wheel
+    angle_percent = angle / 360.0
+    
+    # Generate colors on both sides
+    h1 = (h - angle_percent) % 1.0
+    h2 = (h + angle_percent) % 1.0
+    
+    rgb1 = hsv_to_rgb((h1, s, v))
+    rgb2 = hsv_to_rgb((h2, s, v))
+    
+    return [rgb_to_hex(rgb1), base_color, rgb_to_hex(rgb2)]
+
+def generate_triadic(base_color):
+    base_rgb = hex_to_rgb(base_color)
+    h, s, v = rgb_to_hsv(base_rgb)
+    
+    # Generate two colors at 120° intervals
+    h1 = (h + 1/3) % 1.0
+    h2 = (h + 2/3) % 1.0
+    
+    rgb1 = hsv_to_rgb((h1, s, v))
+    rgb2 = hsv_to_rgb((h2, s, v))
+    
+    return [base_color, rgb_to_hex(rgb1), rgb_to_hex(rgb2)]
+
+# Color mixing functions (existing functions remain the same)
 def mix_colors(color1, color2, ratio=0.5):
     rgb1 = hex_to_rgb(color1)
     rgb2 = hex_to_rgb(color2)
@@ -94,7 +158,7 @@ def main():
         filtered_df = filtered_df.sort_values(by=sort_by)
     
     # Main content tabs
-    tab1, tab2 = st.tabs(["Color Palette", "Color Mixing"])
+    tab1, tab2, tab3 = st.tabs(["Color Palette", "Color Mixing", "Palette Generator"])
     
     with tab1:
         col1, col2 = st.columns([2, 1])
@@ -180,6 +244,46 @@ def main():
                 '</div>',
                 unsafe_allow_html=True
             )
+
+    with tab3:
+        st.subheader("Palette Generator")
+        
+        col1, col2 = st.columns([1, 2])
+        
+        with col1:
+            base_color = st.selectbox("Select base color", filtered_df['Name'], key='base_color')
+            base_color_hex = filtered_df[filtered_df['Name'] == base_color].iloc[0]['HEX']
+            
+            palette_type = st.selectbox(
+                "Select palette type",
+                ["Monochromatic", "Complementary", "Analogous", "Triadic"]
+            )
+            
+            if palette_type == "Monochromatic":
+                count = st.slider("Number of colors", 3, 7, 5)
+                colors = generate_monochromatic(base_color_hex, count)
+            elif palette_type == "Complementary":
+                colors = generate_complementary(base_color_hex)
+            elif palette_type == "Analogous":
+                angle = st.slider("Angle", 10, 50, 30)
+                colors = generate_analogous(base_color_hex, angle)
+            else:  # Triadic
+                colors = generate_triadic(base_color_hex)
+        
+        with col2:
+            st.subheader("Generated Palette")
+            
+            # Display all colors in the palette
+            cols = st.columns(len(colors))
+            for idx, (color, col) in enumerate(zip(colors, cols)):
+                with col:
+                    st.markdown(
+                        f'<div class="preview-box" style="background-color: {color};">'
+                        f'<p>Color {idx + 1}</p>'
+                        f'<p>HEX: {color}</p>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
     
     # Download section
     st.subheader("Download Data")

@@ -27,7 +27,7 @@
     margin-bottom: 20px;
 }
 
-/* New styles for color mixing */
+/* Color mixing styles */
 .mix-controls {
     margin: 20px 0;
 }
@@ -45,4 +45,30 @@
 
 .mix-ratio-slider {
     margin: 15px 0;
+}
+
+/* Palette generator styles */
+.palette-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.palette-color {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+}
+
+.color-info {
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.generator-controls {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
