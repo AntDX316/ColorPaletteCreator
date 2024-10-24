@@ -42,7 +42,54 @@ def hsv_to_rgb(hsv):
     rgb = colorsys.hsv_to_rgb(hsv[0], hsv[1], hsv[2])
     return tuple(int(x * 255) for x in rgb)
 
-# Palette generation functions
+# New Color Harmony Functions
+def get_split_complementary(base_color, angle=30):
+    base_rgb = hex_to_rgb(base_color)
+    h, s, v = rgb_to_hsv(base_rgb)
+    
+    # Calculate split complementary colors
+    angle_percent = angle / 360.0
+    complement_h = (h + 0.5) % 1.0
+    h1 = (complement_h - angle_percent) % 1.0
+    h2 = (complement_h + angle_percent) % 1.0
+    
+    rgb1 = hsv_to_rgb((h1, s, v))
+    rgb2 = hsv_to_rgb((h2, s, v))
+    
+    return [base_color, rgb_to_hex(rgb1), rgb_to_hex(rgb2)]
+
+def get_square_harmony(base_color):
+    base_rgb = hex_to_rgb(base_color)
+    h, s, v = rgb_to_hsv(base_rgb)
+    
+    # Calculate colors at 90° intervals
+    colors = []
+    for i in range(4):
+        new_h = (h + (i * 0.25)) % 1.0
+        rgb = hsv_to_rgb((new_h, s, v))
+        colors.append(rgb_to_hex(rgb))
+    
+    return colors
+
+def get_rectangular_harmony(base_color):
+    base_rgb = hex_to_rgb(base_color)
+    h, s, v = rgb_to_hsv(base_rgb)
+    
+    # Calculate colors for rectangular harmony (60° and 120° apart)
+    h1 = (h + 0.167) % 1.0  # 60°
+    h2 = (h + 0.5) % 1.0    # 180°
+    h3 = (h + 0.667) % 1.0  # 240°
+    
+    colors = [
+        base_color,
+        rgb_to_hex(hsv_to_rgb((h1, s, v))),
+        rgb_to_hex(hsv_to_rgb((h2, s, v))),
+        rgb_to_hex(hsv_to_rgb((h3, s, v)))
+    ]
+    
+    return colors
+
+# Existing functions remain the same
 def generate_monochromatic(base_color, count=5):
     base_rgb = hex_to_rgb(base_color)
     h, s, v = rgb_to_hsv(base_rgb)
@@ -96,7 +143,7 @@ def generate_triadic(base_color):
     
     return [base_color, rgb_to_hex(rgb1), rgb_to_hex(rgb2)]
 
-# Color mixing functions (existing functions remain the same)
+# Color mixing functions
 def mix_colors(color1, color2, ratio=0.5):
     rgb1 = hex_to_rgb(color1)
     rgb2 = hex_to_rgb(color2)
@@ -158,7 +205,7 @@ def main():
         filtered_df = filtered_df.sort_values(by=sort_by)
     
     # Main content tabs
-    tab1, tab2, tab3 = st.tabs(["Color Palette", "Color Mixing", "Palette Generator"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Color Palette", "Color Mixing", "Palette Generator", "Color Harmony"])
     
     with tab1:
         col1, col2 = st.columns([2, 1])
@@ -284,6 +331,65 @@ def main():
                         '</div>',
                         unsafe_allow_html=True
                     )
+    
+    with tab4:
+        st.subheader("Color Harmony Suggestions")
+        
+        col1, col2 = st.columns([1, 2])
+        
+        with col1:
+            harmony_base_color = st.selectbox("Select base color", filtered_df['Name'], key='harmony_base_color')
+            harmony_base_hex = filtered_df[filtered_df['Name'] == harmony_base_color].iloc[0]['HEX']
+            
+            harmony_type = st.selectbox(
+                "Select harmony type",
+                ["Split Complementary", "Square", "Rectangle"]
+            )
+            
+            if harmony_type == "Split Complementary":
+                split_angle = st.slider("Split angle", 10, 45, 30)
+                harmony_colors = get_split_complementary(harmony_base_hex, split_angle)
+                harmony_description = """
+                Split complementary colors consist of a base color and two colors adjacent to its complement.
+                This creates high contrast while being more sophisticated than a standard complementary scheme.
+                """
+            elif harmony_type == "Square":
+                harmony_colors = get_square_harmony(harmony_base_hex)
+                harmony_description = """
+                Square harmony uses four colors evenly spaced around the color wheel (90° apart).
+                This creates a bold and balanced color scheme with maximum contrast.
+                """
+            else:  # Rectangle
+                harmony_colors = get_rectangular_harmony(harmony_base_hex)
+                harmony_description = """
+                Rectangular harmony uses four colors arranged in two complementary pairs.
+                This creates a rich color scheme with plenty of possibilities for variation.
+                """
+        
+        with col2:
+            st.markdown("### Harmony Preview")
+            st.markdown(harmony_description)
+            
+            # Display harmony colors
+            cols = st.columns(len(harmony_colors))
+            for idx, (color, col) in enumerate(zip(harmony_colors, cols)):
+                with col:
+                    st.markdown(
+                        f'<div class="preview-box" style="background-color: {color};">'
+                        f'<p>Color {idx + 1}</p>'
+                        f'<p>HEX: {color}</p>'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
+            
+            # Color harmony tips
+            st.markdown("### Usage Tips")
+            st.markdown("""
+            - Use the base color as your primary color
+            - Use harmony colors for accents and highlights
+            - Maintain a consistent ratio between colors (e.g., 60-30-10 rule)
+            - Consider the context and purpose of your design
+            """)
     
     # Download section
     st.subheader("Download Data")

@@ -72,3 +72,31 @@
     border-radius: 10px;
     margin-bottom: 20px;
 }
+
+/* Color harmony styles */
+.harmony-preview {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.harmony-color {
+    flex: 1;
+    min-width: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.harmony-description {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.harmony-tips {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
