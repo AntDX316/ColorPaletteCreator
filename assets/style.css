@@ -26,3 +26,23 @@
 .search-box {
     margin-bottom: 20px;
 }
+
+/* New styles for color mixing */
+.mix-controls {
+    margin: 20px 0;
+}
+
+.blend-mode-selector {
+    margin: 15px 0;
+}
+
+.color-mix-preview {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.mix-ratio-slider {
+    margin: 15px 0;
+}
