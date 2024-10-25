@@ -178,8 +178,8 @@ def main():
         
         col1, col2 = st.columns(2)
         with col1:
-            color1 = st.color_picker("Select first color", "#ff0000")
-            color2 = st.color_picker("Select second color", "#0000ff")
+            color1 = st.color_picker("Select first color", "#ff0000", key="mix_color1")
+            color2 = st.color_picker("Select second color", "#0000ff", key="mix_color2")
         
         with col2:
             blend_mode = st.selectbox("Blend Mode", ["normal", "multiply", "screen", "overlay"])
@@ -201,7 +201,7 @@ def main():
     with tab3:
         st.subheader("Palette Generator")
         
-        base_color = st.color_picker("Select base color", "#ff0000")
+        base_color = st.color_picker("Select base color", "#ff0000", key="palette_base_color")
         scheme_type = st.selectbox(
             "Select color scheme",
             ["monochromatic", "complementary", "analogous", "triadic"]
@@ -224,7 +224,7 @@ def main():
     with tab4:
         st.subheader("Color Harmony")
         
-        base_color = st.color_picker("Select base color", "#ff0000")
+        base_color = st.color_picker("Select base color", "#ff0000", key="harmony_base_color")
         harmony_type = st.selectbox(
             "Select harmony type",
             ["split-complementary", "square", "rectangular"]
@@ -259,7 +259,7 @@ def main():
         
         with col1:
             st.markdown("### Pick a Color")
-            picked_color = st.color_picker("Choose a color", "#000000")
+            picked_color = st.color_picker("Choose a color", "#000000", key="finder_color")
             num_similar = st.slider("Number of similar colors", 3, 10, 5)
             
             st.markdown("### Selected Color")
