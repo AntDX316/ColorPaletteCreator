@@ -137,12 +137,6 @@ def get_harmony_colors(base_color_hex, harmony_type):
     
     return [rgb_to_hex(rgb) for rgb in colors]
 
-def get_download_link(df):
-    csv = df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()
-    href = f'data:file/csv;base64,{b64}'
-    return href
-
 def calculate_color_distance(color1_hex, color2_hex):
     """Calculate Euclidean distance between two colors in RGB space"""
     rgb1 = hex_to_rgb(color1_hex)
@@ -370,15 +364,6 @@ def main():
                             '</div>',
                             unsafe_allow_html=True
                         )
-    
-    # Download section
-    st.subheader("Download Data")
-    download_link = get_download_link(filtered_df)
-    st.markdown(
-        f'<a href="{download_link}" download="filtered_colors.csv" '
-        'class="download-button">Download Filtered Data as CSV</a>',
-        unsafe_allow_html=True
-    )
 
 if __name__ == "__main__":
     main()
