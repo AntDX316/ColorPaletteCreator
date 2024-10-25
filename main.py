@@ -15,10 +15,14 @@ def load_data():
 # Color validation and parsing functions
 def is_valid_hex(color):
     """Validate hex color format"""
+    if not isinstance(color, str):
+        return False
     return bool(re.match(r'^#(?:[0-9a-fA-F]{3}){1,2}$', color))
 
 def is_valid_rgb(color):
     """Validate RGB color format"""
+    if not isinstance(color, str):
+        return False
     pattern = r'rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)'
     match = re.match(pattern, color)
     if match:
@@ -34,6 +38,16 @@ def parse_rgb(color):
         return tuple(map(int, match.groups()))
     return None
 
+def normalize_hex_color(hex_color):
+    """Normalize hex color to proper format"""
+    if isinstance(hex_color, int):
+        return f'#{hex_color:06x}'
+    elif not isinstance(hex_color, str):
+        hex_color = str(hex_color)
+    if not hex_color.startswith('#'):
+        hex_color = f'#{hex_color}'
+    return hex_color
+
 def rgb_to_hex(rgb):
     """Convert RGB tuple to hex string"""
     return '#{:02x}{:02x}{:02x}'.format(
@@ -44,6 +58,7 @@ def rgb_to_hex(rgb):
 
 def hex_to_rgb(hex_color):
     """Convert hex string to RGB tuple"""
+    hex_color = normalize_hex_color(hex_color)
     hex_color = hex_color.lstrip('#')
     if len(hex_color) == 3:
         hex_color = ''.join(c + c for c in hex_color)
@@ -58,6 +73,9 @@ def hsv_to_rgb(hsv):
     return tuple(int(x * 255) for x in rgb)
 
 def blend_colors(color1_hex, color2_hex, ratio=0.5, mode="normal"):
+    color1_hex = normalize_hex_color(color1_hex)
+    color2_hex = normalize_hex_color(color2_hex)
+    
     rgb1 = hex_to_rgb(color1_hex)
     rgb2 = hex_to_rgb(color2_hex)
     
@@ -77,6 +95,7 @@ def blend_colors(color1_hex, color2_hex, ratio=0.5, mode="normal"):
     return rgb_to_hex(blended)
 
 def generate_palette(base_color_hex, scheme_type):
+    base_color_hex = normalize_hex_color(base_color_hex)
     base_rgb = hex_to_rgb(base_color_hex)
     h, s, v = rgb_to_hsv(base_rgb)
     
@@ -109,6 +128,7 @@ def generate_palette(base_color_hex, scheme_type):
     return [rgb_to_hex(rgb) for rgb in colors]
 
 def get_harmony_colors(base_color_hex, harmony_type):
+    base_color_hex = normalize_hex_color(base_color_hex)
     base_rgb = hex_to_rgb(base_color_hex)
     h, s, v = rgb_to_hsv(base_rgb)
     
@@ -139,12 +159,15 @@ def get_harmony_colors(base_color_hex, harmony_type):
 
 def calculate_color_distance(color1_hex, color2_hex):
     """Calculate Euclidean distance between two colors in RGB space"""
+    color1_hex = normalize_hex_color(color1_hex)
+    color2_hex = normalize_hex_color(color2_hex)
     rgb1 = hex_to_rgb(color1_hex)
     rgb2 = hex_to_rgb(color2_hex)
     return math.sqrt(sum((c1 - c2) ** 2 for c1, c2 in zip(rgb1, rgb2)))
 
 def find_similar_colors(target_color, df, num_colors=5):
     """Find similar colors in the dataset"""
+    target_color = normalize_hex_color(target_color)
     distances = []
     for _, row in df.iterrows():
         distance = calculate_color_distance(target_color, row['HEX'])
