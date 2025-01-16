@@ -6,6 +6,9 @@ import colorsys
 import math
 import re
 
+# Set page title
+st.set_page_config(page_title="Color Palette Creator")
+
 # Load data function
 @st.cache_data
 def load_data():
