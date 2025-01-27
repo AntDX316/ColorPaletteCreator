@@ -1,62 +1,59 @@
-# Color Palette Creator 🎨
+# Color Palette Creator
 
-A powerful web-based color manipulation tool built with Streamlit that helps designers and artists explore and work with colors effectively.
+The Color Palette Creator is a powerful web-based tool that helps designers and artists explore and work with colors.
+
+It features a comprehensive suite of color manipulation tools including palette generation, color mixing, and harmony creation.
+
+Users can search for colors by name, HEX, or RGB values, generate custom color schemes (monochromatic, complementary, analogous, or triadic), blend colors with different modes, and find harmonious color combinations.
+
+The app also includes a smart color finder that can suggest similar colors from its database, making it an invaluable resource for digital design work and color exploration.
 
 ## Features
 
-- **Color Search**: Search colors by name, HEX, or RGB values
-- **Palette Generation**: Create custom color schemes:
-  - Monochromatic
-  - Complementary
-  - Analogous
-  - Triadic
-- **Color Mixing**: Blend colors using different modes:
-  - Normal
-  - Multiply
-  - Screen
-  - Overlay
-- **Color Harmony**: Generate harmonious color combinations:
-  - Split-complementary
-  - Square
-  - Rectangular
-- **Similar Color Finder**: Discover colors that match your selected color
-- **Interactive Interface**: Visual color previews and real-time updates
+- Generate color palettes from images
+- Create custom color combinations
+- Save and manage multiple palettes
+- Export palettes in various formats
+- Color harmony suggestions
+- Accessibility checking for color combinations
 
-## Requirements
+## Getting Started
 
-- Python 3.7+
-- Streamlit
-- Pandas
-- Other Python dependencies (see requirements.txt)
+### Prerequisites
 
-## Installation
+- Web browser (Chrome, Firefox, Safari, or Edge)
+- Node.js and npm installed
+
+### Installation
 
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/ColorPaletteCreator.git
+```
+
+2. Navigate to the project directory:
+```bash
 cd ColorPaletteCreator
 ```
 
-2. Install the required dependencies:
+3. Install dependencies:
 ```bash
-pip install -r requirements.txt
+npm install
 ```
+
+4. Start the development server:
+```bash
+npm start
+```
+
+The application will be available at `http://localhost:3000`
 
 ## Usage
 
-1. Run the Streamlit application:
-```bash
-streamlit run main.py
-```
-
-2. Open your web browser and navigate to the URL shown in the terminal (typically http://localhost:8501)
-
-3. Use the sidebar filters to search for colors and explore different features in the tabs:
-   - Color Palette
-   - Color Mixing
-   - Palette Generator
-   - Color Harmony
-   - Color Finder
+1. Upload an image or manually select colors
+2. Adjust and fine-tune your palette
+3. Save your palette or export it in your preferred format
+4. Use the color harmony tools to create matching combinations
 
 ## Contributing
 
