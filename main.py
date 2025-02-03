@@ -199,6 +199,36 @@ def process_search_input(search_term, df):
     
     return filtered_df, custom_color
 
+def get_text_color(hex_color):
+    """Determine if text should be black or white based on background color brightness"""
+    # Remove the '#' if present
+    hex_color = hex_color.lstrip('#')
+    
+    # Convert hex to RGB
+    r = int(hex_color[0:2], 16)
+    g = int(hex_color[2:4], 16)
+    b = int(hex_color[4:6], 16)
+    
+    # Calculate brightness using perceived luminance formula
+    brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255
+    
+    # Return black for light backgrounds, white for dark backgrounds
+    return "#000000" if brightness > 0.5 else "#FFFFFF"
+
+def get_text_style(bg_color):
+    """Generate text style based on background color"""
+    text_color = get_text_color(bg_color)
+    shadow_color = "#FFFFFF" if text_color == "#000000" else "#000000"
+    
+    return (f'text-shadow: -1px -1px 0 {shadow_color}, '
+            f'1px -1px 0 {shadow_color}, '
+            f'-1px 1px 0 {shadow_color}, '
+            f'1px 1px 0 {shadow_color}; '
+            f'color: {text_color}; '
+            'font-weight: bold; '
+            'padding-left: 10px; '
+            'font-size: 90%;')
+
 def main():
     st.title("🎨 Color Visualization Dashboard")
     
@@ -229,9 +259,9 @@ def main():
             st.markdown("### Custom Color")
             st.markdown(
                 f'<div class="preview-box" style="background-color: {custom_color["HEX"]};">'
-                f'<p>{custom_color["Name"]}</p>'
-                f'<p>HEX: {custom_color["HEX"]}</p>'
-                f'<p>RGB: {custom_color["RGB"]}</p>'
+                f'<p style="{get_text_style(custom_color["HEX"])}">{custom_color["Name"]}</p>'
+                f'<p style="{get_text_style(custom_color["HEX"])}">HEX: {custom_color["HEX"]}</p>'
+                f'<p style="{get_text_style(custom_color["HEX"])}">RGB: {custom_color["RGB"]}</p>'
                 '</div>',
                 unsafe_allow_html=True
             )
@@ -244,9 +274,9 @@ def main():
                 with cols[idx % 4]:
                     st.markdown(
                         f'<div class="preview-box" style="background-color: {row["HEX"]};">'
-                        f'<p>{row["Name"]}</p>'
-                        f'<p>HEX: {row["HEX"]}</p>'
-                        f'<p>RGB: {row["RGB"]}</p>'
+                        f'<p style="{get_text_style(row["HEX"])}">{row["Name"]}</p>'
+                        f'<p style="{get_text_style(row["HEX"])}">HEX: {row["HEX"]}</p>'
+                        f'<p style="{get_text_style(row["HEX"])}">RGB: {row["RGB"]}</p>'
                         '</div>',
                         unsafe_allow_html=True
                     )
@@ -271,9 +301,15 @@ def main():
         st.markdown("### Result")
         st.markdown(
             f'<div style="display: flex; gap: 10px; margin: 20px 0;">'
-            f'<div class="preview-box" style="flex: 1; background-color: {color1};"><p>Color 1</p></div>'
-            f'<div class="preview-box" style="flex: 1; background-color: {result_color};"><p>Blended</p></div>'
-            f'<div class="preview-box" style="flex: 1; background-color: {color2};"><p>Color 2</p></div>'
+            f'<div class="preview-box" style="flex: 1; background-color: {color1};">'
+            f'<p style="{get_text_style(color1)}">Color 1</p>'
+            '</div>'
+            f'<div class="preview-box" style="flex: 1; background-color: {result_color};">'
+            f'<p style="{get_text_style(result_color)}">Blended</p>'
+            '</div>'
+            f'<div class="preview-box" style="flex: 1; background-color: {color2};">'
+            f'<p style="{get_text_style(color2)}">Color 2</p>'
+            '</div>'
             '</div>',
             unsafe_allow_html=True
         )
@@ -296,7 +332,7 @@ def main():
             with col:
                 st.markdown(
                     f'<div class="preview-box" style="background-color: {color};">'
-                    f'<p>HEX: {color}</p>'
+                    f'<p style="{get_text_style(color)}">HEX: {color}</p>'
                     '</div>',
                     unsafe_allow_html=True
                 )
@@ -319,7 +355,7 @@ def main():
             with col:
                 st.markdown(
                     f'<div class="preview-box" style="background-color: {color};">'
-                    f'<p>HEX: {color}</p>'
+                    f'<p style="{get_text_style(color)}">HEX: {color}</p>'
                     '</div>',
                     unsafe_allow_html=True
                 )
@@ -346,7 +382,7 @@ def main():
             st.markdown("### Selected Color")
             st.markdown(
                 f'<div class="preview-box" style="background-color: {picked_color};">'
-                f'<p>HEX: {picked_color}</p>'
+                f'<p style="{get_text_style(picked_color)}">HEX: {picked_color}</p>'
                 '</div>',
                 unsafe_allow_html=True
             )
@@ -361,9 +397,9 @@ def main():
                     with col:
                         st.markdown(
                             f'<div class="preview-box" style="background-color: {color["HEX"]};">'
-                            f'<p>{color["Name"]}</p>'
-                            f'<p>HEX: {color["HEX"]}</p>'
-                            f'<p>RGB: {color["RGB"]}</p>'
+                            f'<p style="{get_text_style(color["HEX"])}">{color["Name"]}</p>'
+                            f'<p style="{get_text_style(color["HEX"])}">HEX: {color["HEX"]}</p>'
+                            f'<p style="{get_text_style(color["HEX"])}">RGB: {color["RGB"]}</p>'
                             '</div>',
                             unsafe_allow_html=True
                         )
