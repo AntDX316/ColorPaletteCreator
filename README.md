@@ -55,6 +55,27 @@ The application will be available at `http://localhost:3000`
 3. Save your palette or export it in your preferred format
 4. Use the color harmony tools to create matching combinations
 
+## Developer Tools
+
+### Codebase Export Script
+
+The repository includes a utility script for exporting the entire codebase into a single text file:
+
+```bash
+python generate_codebase_txt.py
+```
+
+This creates a single text file containing all code files in the project (excluding common files typically in .gitignore).
+
+Options:
+- `--source`: Specify the source directory (default: current directory)
+- `--output`: Specify the output file name (default: codebase_export_YYYY-MM-DD.txt)
+
+Example:
+```bash
+python generate_codebase_txt.py --output my_export.txt
+```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
