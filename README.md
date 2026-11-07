@@ -1,5 +1,7 @@
 # Color Palette Creator
 
+![ColorPaletteCreator preview](docs/preview.png)
+
 A responsive, browser-based color workspace. The Vercel app replaces the original Streamlit interface; the original Python source remains available in this repository.
 
 ## Features
