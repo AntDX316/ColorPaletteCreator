@@ -30,7 +30,7 @@ Saved palettes belong to the current browser and device. Export them for a porta
 
 ## Original app
 
-`main.py`, `color_srgb.csv`, and the Python dependency files preserve the previous Streamlit implementation.
+`legacy/` preserves `main.py`, `color_srgb.csv`, and the Python dependency files for the previous Streamlit implementation. To run that version, change into `legacy/` first.
 
 ## License
 
