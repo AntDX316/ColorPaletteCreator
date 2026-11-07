@@ -1,85 +1,37 @@
 # Color Palette Creator
 
-The Color Palette Creator is a powerful web-based tool that helps designers and artists explore and work with colors.
-
-It features a comprehensive suite of color manipulation tools including palette generation, color mixing, and harmony creation.
-
-Users can search for colors by name, HEX, or RGB values, generate custom color schemes (monochromatic, complementary, analogous, or triadic), blend colors with different modes, and find harmonious color combinations.
-
-The app also includes a smart color finder that can suggest similar colors from its database, making it an invaluable resource for digital design work and color exploration.
+A responsive, browser-based color workspace. The Vercel app replaces the original Streamlit interface; the original Python source remains available in this repository.
 
 ## Features
 
-- Generate color palettes from images
-- Create custom color combinations
-- Save and manage multiple palettes
-- Export palettes in various formats
-- Color harmony suggestions
-- Accessibility checking for color combinations
+- Five-color palettes with six harmony modes, individual editing, locks and undo/redo
+- Curated starting palettes and a live design preview
+- Named-color search and nearest RGB matches for HEX / RGB input
+- Local image palette extraction; images stay in the browser
+- Normal, multiply and screen color mixing
+- WCAG AA / AAA text contrast checks
+- Named palettes saved in browser local storage
+- CSS variables, JSON, SVG and PNG exports
+- Responsive layouts and keyboard support (Space to generate)
 
-## Getting Started
+## Development
 
-### Prerequisites
+Requires Node.js 22 or newer. No runtime dependencies or API keys.
 
-- Web browser (Chrome, Firefox, Safari, or Edge)
-- Node.js and npm installed
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/ColorPaletteCreator.git
+```sh
+npm run dev
+npm test
+npm run build
 ```
 
-2. Navigate to the project directory:
-```bash
-cd ColorPaletteCreator
-```
+Open http://127.0.0.1:4173. Vercel runs `npm run build` and serves `dist/`.
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+Saved palettes belong to the current browser and device. Export them for a portable backup. Image extraction chooses frequent quantized RGB colors, and similar-color search ranks RGB distance. Contrast checking applies WCAG luminance ratios.
 
-4. Start the development server:
-```bash
-npm start
-```
+## Original app
 
-The application will be available at `http://localhost:3000`
-
-## Usage
-
-1. Upload an image or manually select colors
-2. Adjust and fine-tune your palette
-3. Save your palette or export it in your preferred format
-4. Use the color harmony tools to create matching combinations
-
-## Developer Tools
-
-### Codebase Export Script
-
-The repository includes a utility script for exporting the entire codebase into a single text file:
-
-```bash
-python generate_codebase_txt.py
-```
-
-This creates a single text file containing all code files in the project (excluding common files typically in .gitignore).
-
-Options:
-- `--source`: Specify the source directory (default: current directory)
-- `--output`: Specify the output file name (default: codebase_export_YYYY-MM-DD.txt)
-
-Example:
-```bash
-python generate_codebase_txt.py --output my_export.txt
-```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+`main.py`, `color_srgb.csv`, and the Python dependency files preserve the previous Streamlit implementation.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+MIT. See LICENSE.
