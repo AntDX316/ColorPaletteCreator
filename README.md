@@ -2,7 +2,7 @@
 
 Made by [@AntDX316](https://github.com/AntDX316)
 
-![ColorPaletteCreator preview](docs/preview.png)
+![ColorPaletteCreator preview](docs/preview-credit-20261107.png)
 
 A responsive, browser-based color workspace. The Vercel app replaces the original Streamlit interface; the original Python source remains available in this repository.
 
