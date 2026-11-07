@@ -4,3 +4,5 @@
 .swatch-values{position:relative;z-index:1;width:100%}.swatch-value-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.swatch-edit{position:relative;display:inline-grid;place-items:center;flex-shrink:0;width:26px;height:26px;border:1px solid currentColor;border-radius:6px;background:#ffffff20;cursor:pointer}.swatch-edit .swatch-color{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0}.swatch-edit:focus-within{outline:3px solid currentColor;outline-offset:3px}.rgb-copy{display:block;border:0;background:none;color:inherit;padding:0;margin-top:8px;font-size:9px;opacity:.75;text-align:left}.color-copy:hover,.rgb-copy:hover{text-decoration:underline;text-underline-offset:3px}.swatch-edit:hover{background:#ffffff50}#toast{visibility:hidden;opacity:0}#toast.visible{visibility:visible;opacity:1}
 @media(max-width:760px){.swatch-value-row{gap:5px}.swatch-edit{width:24px;height:24px}.rgb-copy{font-size:7px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+footer .creator-credit{font-size:12px;letter-spacing:0;text-transform:none}footer .creator-credit a{color:inherit;text-underline-offset:3px}
