@@ -1,6 +1,5 @@
 # Color Palette Creator
 
-Made by [@AntDX316](https://github.com/AntDX316)
 
 ![ColorPaletteCreator preview](docs/preview-credit-20261107.png)
 
